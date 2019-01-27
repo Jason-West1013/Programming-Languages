@@ -1,48 +1,105 @@
 #include<stdio.h>
+#include<stdlib.h>
 #include<stdbool.h>
+#include<string.h>
 #include<ctype.h>
 
-// constants
-FILE *FP;
-
-typedef struct {
-    char                word[32];
+struct wordList {
+    char                *word;
     int                 wordFreq;
     struct wordList     *nextWord;
     struct wordList     *prevWord;
-} wordList;
+};
+typedef struct wordList LIST;
+
+// constants
+LIST *HEAD;
+FILE *FP;
 
 char *getWord() {
     char c;
-    char word[32];
     int len = 0;
+    char *word = (char *)malloc(sizeof(char));
 
-    while ((c = getc(FP)) != EOF) {
-        if (c == ' ' || c == '\n') {
-            word[len++] = '\0';
-            break;
-        }
-        word[len++] = c;
+    // Test for allocation
+    if (word == NULL) {
+        printf("Could not allocate memory.\n");
+        exit(1);
     }
-    char *p = word;
-    return p;
+
+    // Check if end of file
+    if ((c = getc(FP)) == EOF) {
+        return NULL;
+    }
+
+    // Retrieve word from file
+    while (isalpha(c) || isdigit(c) || c == 95 || c == 45) {
+
+        // Test first letter
+        if (len == 0 && !isalpha(c)) {
+            break;
+        } 
+
+        // Add character and increase buffer
+        word[len] = c;
+        len++;
+        word = realloc(word, sizeof(char) + len);
+        c = getc(FP);
+    }
+
+    word[len] = '\0';
+    return word;
 }
 
     // Read the file (1st pass) and create a linked list of words (in order) with freq set to 1
-    // TODO: Loop through file
-    // TODO: Test that each is an actual word
     // TODO: Put confirmed word in Linked List
-void createBaseList() {
+void createList() {
+    LIST *listPtr;
+    LIST *newElement;
     char *tempWord;
     bool found;
 
-    tempWord = getWord();
-    printf("%s\n", tempWord);
-    
-}
+    // Add first word to the Linked List
+    if (tempWord = getWord()) {
+        newElement = (LIST *)malloc(sizeof(LIST));
+        newElement->word = tempWord;
+        newElement->wordFreq = 1;
+        newElement->nextWord = NULL;
+        newElement->prevWord = NULL;
+        HEAD = newElement;
+    }
 
-void caclWordFreq() {
-    // TODO: Read the file (2nd pass) and for each word identified, seach the linked list and increment matching word
+    // Loop through the remainder of the file adding words
+    while (tempWord = getWord()) {
+        if (tempWord[0] != '\0') {
+            //printf("%s\n", tempWord);
+            listPtr = HEAD;
+            found = false;
+            if (listPtr->prevWord == NULL && strcmp(listPtr->word, tempWord) == 0) {
+                found = true;
+            }
+            while (listPtr->nextWord != NULL && !found) {
+                listPtr = listPtr->nextWord;
+                if (strcmp(listPtr->word, tempWord) == 0) {
+                    found = true;
+                    break;
+                }
+            }
+
+            // add to linked list
+            if (!found) {
+                newElement = (LIST *)malloc(sizeof(LIST));
+                newElement->word = tempWord;
+                newElement->wordFreq = 1;
+                newElement->nextWord = NULL;
+                newElement->prevWord = listPtr;
+                listPtr->nextWord = newElement;
+            } else {
+                listPtr->wordFreq++;
+            }
+        }
+    }
+    free(tempWord);
 }
 
 void printList() {
@@ -60,6 +117,20 @@ void freqSortandPrint() {
 int main(int argc, char* argv[]) {
     // Loop for all possible file inputs
     FP = fopen(argv[1], "r");
-    createBaseList();
+
+    if (FP == NULL) {
+        printf("Could not open file.\n");
+        exit(0);
+    }
+
+    createList();
+    
+    LIST *ptr = HEAD;
+    while (ptr->nextWord != NULL) {
+        printf("Word: %s \t\tFreq: %d\n", ptr->word, ptr->wordFreq);
+        ptr = ptr->nextWord;
+    }
+
+    fclose(FP);
     return 0;
 }

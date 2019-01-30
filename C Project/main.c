@@ -14,6 +14,7 @@ typedef struct wordList LIST;
 
 // constants
 LIST *HEAD;
+LIST *TAIL;
 FILE *FP;
 
 char *getWord() {
@@ -38,10 +39,10 @@ char *getWord() {
         // Test first letter
         if (len == 0 && !isalpha(c)) {
             break;
-        } 
+        }
 
         // Add character and increase buffer
-        word[len] = c;
+        word[len] = tolower(c);
         len++;
         word = realloc(word, sizeof(char) + len);
         c = getc(FP);
@@ -52,8 +53,7 @@ char *getWord() {
 }
 
     // Read the file (1st pass) and create a linked list of words (in order) with freq set to 1
-    // TODO: Put confirmed word in Linked List
-void createList() {
+int createList() {
     LIST *listPtr;
     LIST *newElement;
     char *tempWord;
@@ -94,6 +94,7 @@ void createList() {
                 newElement->nextWord = NULL;
                 newElement->prevWord = listPtr;
                 listPtr->nextWord = newElement;
+                TAIL = newElement;
             } else {
                 listPtr->wordFreq++;
             }
@@ -103,7 +104,11 @@ void createList() {
 }
 
 void printList() {
-    // TODO: Print out each word and frequency in order of appearance
+    LIST *ptr = HEAD;
+    while (ptr != NULL) {
+        printf("Word: %-40s Freq: %d\n", ptr->word, ptr->wordFreq);
+        ptr = ptr->nextWord;
+    }
 }
 
 void alphaSortandPrint() {
@@ -112,6 +117,15 @@ void alphaSortandPrint() {
 
 void freqSortandPrint() {
     // TODO: Sort the linked list in decreasing order of word frequency and invoke PrintList
+}
+
+void freeList() {
+    LIST *temp;
+    while(HEAD != NULL) {
+        temp = HEAD;
+        HEAD = HEAD->nextWord;
+        free(temp);
+    }
 }
 
 int main(int argc, char* argv[]) {
@@ -124,13 +138,12 @@ int main(int argc, char* argv[]) {
     }
 
     createList();
-    
-    LIST *ptr = HEAD;
-    while (ptr->nextWord != NULL) {
-        printf("Word: %s \t\tFreq: %d\n", ptr->word, ptr->wordFreq);
-        ptr = ptr->nextWord;
-    }
+    printList();
 
+    //alphaSortandPrint();
+    //printList();
+
+    freeList();
     fclose(FP);
     return 0;
 }

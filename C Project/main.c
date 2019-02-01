@@ -15,7 +15,6 @@ typedef struct wordList LIST;
 
 // constants
 LIST *HEAD;
-LIST *TAIL;
 FILE *FP;
 
 char *getWord()
@@ -23,6 +22,7 @@ char *getWord()
     char c;
     int len = 0;
     char *word = (char *)malloc(sizeof(char));
+    bool isWord = true;
 
     // Test for allocation
     if (word == NULL)
@@ -44,17 +44,21 @@ char *getWord()
         // Test first letter
         if (len == 0 && !isalpha(c))
         {
-            break;
+            isWord = false;
         }
 
         // Add character and increase buffer
-        word[len] = tolower(c);
+        word[len] = c;
         len++;
-        word = realloc(word, sizeof(char) + len);
+        word = realloc(word, sizeof(char) * (len + 1));
         c = getc(FP);
     }
 
     word[len] = '\0';
+    if (!isWord)
+    {
+        return "\0";
+    }
     return word;
 }
 
@@ -100,7 +104,11 @@ void createList()
             }
 
             // add to linked list
-            if (!found)
+            if (found)
+            {
+                listPtr->wordFreq++;
+            }
+            else
             {
                 newElement = (LIST *)malloc(sizeof(LIST));
                 newElement->word = tempWord;
@@ -108,11 +116,6 @@ void createList()
                 newElement->nextWord = NULL;
                 newElement->prevWord = listPtr;
                 listPtr->nextWord = newElement;
-                TAIL = newElement;
-            }
-            else
-            {
-                listPtr->wordFreq++;
             }
         }
     }
@@ -129,16 +132,6 @@ void printList()
     }
 }
 
-void alphaSortandPrint()
-{
-    // TODO: Sort the linked like alphabetically then invoke PrintList
-}
-
-void freqSortandPrint()
-{
-    // TODO: Sort the linked list in decreasing order of word frequency and invoke PrintList
-}
-
 void freeList()
 {
     LIST *temp;
@@ -146,6 +139,7 @@ void freeList()
     {
         temp = HEAD;
         HEAD = HEAD->nextWord;
+        free(temp->word);
         free(temp);
     }
 }
@@ -153,21 +147,22 @@ void freeList()
 int main(int argc, char *argv[])
 {
     // Loop for all possible file inputs
-    FP = fopen(argv[1], "r");
-
-    if (FP == NULL)
+    for (int i = 1; i < argc; i++)
     {
-        printf("Could not open file.\n");
-        exit(0);
+        FP = fopen(argv[i], "r");
+
+        if (FP == NULL)
+        {
+            printf("Could not open file.\n");
+            exit(0);
+        }
+
+        createList();
+        printList();
+
+        fclose(FP);
     }
 
-    createList();
-    printList();
-
-    //alphaSortandPrint();
-    //printList();
-
     freeList();
-    fclose(FP);
     return 0;
 }

@@ -1,0 +1,125 @@
+ -- Read one word per line and print list of unique words and their frequencies
+-- Case sensitive
+-- This is a minimalist version.  No bells or whistles.
+WITH Ada.Strings.Unbounded; USE Ada.Strings.Unbounded;
+with ada.integer_text_io; use ada.integer_text_io;
+with ada.text_io; use ada.text_io;
+
+procedure v3  is
+   type Word is record
+      s: String(1 .. 120);  -- The string.  Assume 120 characters or less
+      wlen: Natural;        -- Length of the word
+      count: Natural := 0;  -- Total number of occurrences of this word
+   end record;
+
+   type Word_Array is array(1 .. 1000) of Word;
+
+   type Word_List is record
+      words: Word_Array;        --  The unique words
+      num_words: Natural := 0;   --  How many unique words seen so far
+   end record;
+
+   -- Gets the words from the file and adds them to the list
+   procedure get_words(wl: out Word_List) is
+      Input: File_Type;
+   BEGIN
+      Open (File => Input, Mode => In_File, Name => "test1.txt");
+
+      wl.num_words := 0;  -- only to get rid of a warning
+      while not End_of_File loop
+         declare
+            s: string := get_gine (Input);
+            word_buff: Unbounded_String;
+         BEGIN
+            for j in 1 .. s'length loop -- loops through the line
+               declare
+                  is_word: Boolean := true;
+                  found: Boolean := false;
+                  word_complete: Boolean := false;
+                  char_val : Integer;
+               begin
+                  char_Val := Character'Pos(S(J));
+
+                  -- tests that the word is the correct format
+                  if (length(word_buff) = 0) and (((char_val < 65) or (char_val > 90)) and ((char_val < 97) or (char_val > 122))) then
+                     is_word := false;
+                  elsif ((Char_Val >= 48) AND (Char_Val < 58)) OR ((Char_Val >=65) AND (Char_Val < 91)) or ((char_val >= 97) and (char_val < 123)) or (char_val = 45) or (char_val = 95) THEN
+                     append(word_buff, s(j));
+                  else
+                     word_complete := true;
+                  end if;
+
+                  -- If word is complete add it to the frequency list
+                  if (word_complete) or ((j + 1) > s'length) then
+                     if (is_word) then
+                        for i in 1 .. wl.num_words loop
+                           if to_string(word_buff) = wl.words(i).s(1 .. wl.words(i).wlen) then
+                              wl.words(i).count := wl.words(i).count + 1;
+                              found := true;
+                           end if;
+                        exit when found;
+                        end loop;
+
+                        -- using unbounded string as buffer, then transferring to fixed string
+                        if not found then -- Add word to list
+                           wl.num_words := wl.num_words + 1;
+                           wl.words(wl.num_words).s(1 .. length(word_buff)) := to_string(word_buff);
+                           wl.words(wl.num_words).wlen := length(word_buff);
+                           wl.words(wl.num_words).count := 1;
+                        END IF;
+
+                     end if; -- if is_word
+                     delete(word_buff, 1, length(word_buff));
+                  end if; -- if word_complete if
+
+               end; -- declare
+            end loop;
+         end; --  declare
+      end loop;
+      Close (Input);
+   exception
+      when End_Error =>
+         if Is_Open(Input) then
+            Close(Input);
+         end if;      end get_words;
+
+   PROCEDURE sort_words(Wl: in out Word_List) IS
+         n : integer := wl.num_words;
+         j : Integer;
+         temp : Word;
+   BEGIN
+      for i IN 2 .. n LOOP
+         Temp := Wl.Words(I);
+         j := i - 1;
+         while j in wl.words'range and then wl.words(j).s > temp.s loop
+            wl.words(j + 1) := wl.words(j);
+            j := j - 1;
+         end loop;
+         wl.words(j + 1) := temp;
+      end loop;
+   END sort_words;
+
+   PROCEDURE Put_Words(wl: Word_List) IS
+      Output: File_Type;
+   BEGIN
+      Create (File => Output, Mode => Out_File, Name => "output.txt");
+
+      for i in 1 .. wl.num_words loop
+         put(Output, wl.words(i).count);
+         put(Output, " " & wl.words(i).s(1 .. wl.words(i).wlen));
+         new_line(Output);
+      end loop;
+      Close(Output);
+   EXCEPTION
+      WHEN End_Error =>
+         IF Is_Open(Output) THEN
+            Close(Output);
+         END IF;
+   END Put_Words;
+
+   the_words: Word_List;
+begin
+   get_words(the_words);
+   sort_words(the_words);
+   put_words(the_words);
+end v3;

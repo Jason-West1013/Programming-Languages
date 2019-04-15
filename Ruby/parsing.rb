@@ -3,4 +3,4 @@ require 'pp'
 
 inputStream = "x > 5 ? 'yes' : 'no'"
 
-pp Ripper.tokenize(inputStream)
+puts RubyVM::InstructionSequence.compile("x > 100 ? 'foo' : 'bar'").disassemble

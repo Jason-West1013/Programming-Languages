@@ -1,0 +1,76 @@
+-- Read one word per line and print list of unique words and their frequencies
+-- Case sensitive
+-- This is a minimalist version.  No bells or whistles.
+WITH Ada.Strings.Unbounded; USE Ada.Strings.Unbounded;
+with Ada.Text_IO.Unbounded_Io; use Ada.Text_IO.Unbounded_IO;
+with ada.integer_text_io; use ada.integer_text_io;
+with ada.text_io; use ada.text_io;
+
+procedure new_u_words_min  is
+   type Word is record
+      s: String(1 .. 120);  -- The string.  Assume 120 characters or less
+      wlen: Natural;        -- Length of the word
+      Count: Natural := 0;  -- Total number of occurrences of this word
+      line_num: unbounded_string := to_unbounded_string("in lines: 1");
+      -- LineNo: Natural :=0;  -- Word found on LineNo
+   end record;
+
+   type Word_Array is array(1 .. 1000) of Word;
+
+   type Word_List is record
+      words: Word_Array;        --  The unique words
+      Num_Words: Natural := 0;   -- How many unique words seen so far
+      curr_line: integer := 1;   -- Current Line
+   end record;
+
+   procedure get_words(wl: out Word_List) is
+   begin
+      wl.num_words := 0;  -- only to get rid of a warning
+      while not End_of_File loop
+         declare
+            S: String := Get_Line;
+            found: Boolean := false;
+         begin
+            FOR I IN 1 .. Wl.Num_Words LOOP
+               -- if word is found, increment
+               if s = wl.words(i).s(1 .. wl.words(i).wlen) then
+                  Wl.Words(I).Count := Wl.Words(I).Count + 1;
+                  append(wl.words(wl.num_words).line_num, to_unbounded_string(" -"));
+                  append(wl.words(wl.num_words).line_num, to_unbounded_string(integer'image(wl.curr_line)));
+                  -- append(wl.words(i).line_num, to_unbounded_string(wl.curr_line));
+                  found := true;
+               end if;
+               exit when found;
+            end loop;
+
+            -- else add the word to the freq list
+            if not found then -- Add word to list
+               wl.num_words := wl.num_words + 1;
+               wl.words(wl.num_words).s(1 .. s'last) := s;
+               wl.words(wl.num_words).wlen := s'length;
+               Wl.Words(Wl.Num_Words).Count := 1;
+               -- Wl.Words(Wl.Num_Words).LineNo:= wl.curr_line; -- set LineNo of word
+               -- wl.curr_line := wl.curr_line + 1; -- one word per line so increase curr_line
+            END IF;
+         END; --  declare
+         wl.curr_line := wl.curr_line + 1;
+      end loop;
+   end get_words;
+
+   procedure put_words(wl: Word_List) is
+   begin
+      for i in 1 .. wl.num_words loop
+         --put(wl.words(i).count);
+         Put(" " & Wl.Words(I).S(1 .. Wl.Words(I).Wlen));
+         put(" ");
+         put(wl.words(i).line_num);
+         put(" wc=" & integer'image(wl.words(i).count));
+         new_line;
+      end loop;
+   end put_words;
+
+   the_words: Word_List;
+begin
+   get_words(the_words);
+   put_words(the_words);
+end new_u_words_min;

@@ -1,0 +1,158 @@
+V "GNAT Lib v2017"
+M P W=b
+A -gnatwu
+A -gnat05
+A -mtune=generic
+A -march=pentium4
+P SS ZX
+
+RN
+RV NO_DIRECT_BOOLEAN_OPERATORS
+RV NO_EXCEPTION_HANDLERS
+RV NO_EXCEPTIONS
+RV NO_IO
+RV NO_NESTED_FINALIZATION
+RV NO_SECONDARY_STACK
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_DEFAULT_INITIALIZATION
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV NO_IMPLICIT_LOOPS
+RV SPARK_05
+
+U v3%b			v3.adb			48088525 NE OO SU IL
+W ada%s			ada.ads			ada.ali
+W ada.exceptions%s	a-except.adb		a-except.ali
+W ada.integer_text_io%s	a-inteio.ads		a-inteio.ali
+W ada.strings%s		a-string.ads		a-string.ali
+W ada.strings.unbounded%s  a-strunb.adb		a-strunb.ali
+W ada.tags%s		a-tags.adb		a-tags.ali
+W ada.text_io%s		a-textio.adb		a-textio.ali
+W interfaces%s		interfac.ads		interfac.ali
+W system%s		system.ads		system.ali
+W system.compare_array_unsigned_8%s  s-carun8.adb  s-carun8.ali
+W system.concat_2%s	s-conca2.adb		s-conca2.ali
+W system.secondary_stack%s  s-secsta.adb	s-secsta.ali
+W system.soft_links%s	s-soflin.adb		s-soflin.ali
+W system.standard_library%s  s-stalib.adb	s-stalib.ali
+
+D ada.ads		20170516105950 76789da1 ada%s
+D a-charac.ads		20170516105954 2d3ec45b ada.characters%s
+D a-chlat1.ads		20170516105952 66457d31 ada.characters.latin_1%s
+D a-except.ads		20170516105952 291912d5 ada.exceptions%s
+D a-finali.ads		20170516105954 bf4f806b ada.finalization%s
+D a-inteio.ads		20170516105954 f64b89a4 ada.integer_text_io%s
+D a-ioexce.ads		20170516105948 e4a01f64 ada.io_exceptions%s
+D a-stream.ads		20170516105952 119b8fb3 ada.streams%s
+D a-string.ads		20170516105952 90ac6797 ada.strings%s
+D a-strmap.ads		20170516105952 e8bb714a ada.strings.maps%s
+D a-strunb.ads		20170516105950 ecdfa332 ada.strings.unbounded%s
+D a-tags.ads		20170516105954 d3a89129 ada.tags%s
+D a-textio.ads		20170516105954 386df5d4 ada.text_io%s
+D a-tiinio.ads		20170516105950 aa04e5d6 ada.text_io.integer_io%s
+D a-unccon.ads		20170516105954 31484697 ada.unchecked_conversion%s
+D interfac.ads		20170516105950 5ab55268 interfaces%s
+D i-cstrea.ads		20170516105950 e53d8b8e interfaces.c_streams%s
+D system.ads		20170516105954 32a08138 system%s
+D s-atocou.ads		20170516105956 b45c2d8d system.atomic_counters%s
+D s-carun8.ads		20170516105954 a903718d system.compare_array_unsigned_8%s
+D s-conca2.ads		20170516105952 02a0d7d0 system.concat_2%s
+D s-crtl.ads		20170516105948 0ebbdb71 system.crtl%s
+D s-exctab.ads		20170516105954 54135002 system.exception_table%s
+D s-ficobl.ads		20170516105956 078245e4 system.file_control_block%s
+D s-finmas.ads		20170516105954 7811a767 system.finalization_masters%s
+D s-finroo.ads		20170516105954 4ff27390 system.finalization_root%s
+D s-memory.ads		20170516105952 597d6634 system.memory%s
+D s-parame.ads		20170516105954 7e2a0d7f system.parameters%s
+D s-secsta.ads		20170516105954 9751b57e system.secondary_stack%s
+D s-soflin.ads		20170516105950 14e1eb6c system.soft_links%s
+D s-stache.ads		20170516105954 a37c21ec system.stack_checking%s
+D s-stalib.ads		20170516105954 09bd3940 system.standard_library%s
+D s-stalib.adb		20170516105948 f2fe2716 system.standard_library%b
+D s-stoele.ads		20170516105956 2dc34a04 system.storage_elements%s
+D s-stopoo.ads		20170516105950 b16154c2 system.storage_pools%s
+D s-stposu.ads		20170516105948 97a6219c system.storage_pools.subpools%s
+D s-stratt.ads		20170516105948 aedef97e system.stream_attributes%s
+D s-traent.ads		20170516105950 005bf670 system.traceback_entries%s
+D s-unstyp.ads		20170516105952 34867c83 system.unsigned_types%s
+D s-wchcon.ads		20170516105954 1b7d22d2 system.wch_con%s
+D v3.adb		20190315001520 6af15a67 v3%b
+X 1 ada.ads
+16K9*Ada 20e8 41|4r6 4r33 5r6 5r31 6r6 6r23
+X 6 a-inteio.ads
+18K13*Integer_Text_IO[14|46] 41|5w10 5r35
+X 9 a-string.ads
+16K13*Strings 35e16 41|4r10 4r37
+X 11 a-strunb.ads
+76K21*Unbounded 490e26 41|4w18 4r45
+79R9*Unbounded_String<5|43R9> 474e14 41|31r24
+84V13*Length{natural} 41|43s23 66s58 67s59 72s43
+100V13*To_String{string} 41|56s31 66s80
+115U14*Append 41|46s22
+373U14*Delete 41|72s22
+X 13 a-textio.ads
+49K13*Text_IO 471e16 41|6w10 6r27
+52P9*File_Type 41|23r14 105r15
+53n23*In_File{53E9} 41|25r36
+53n32*Out_File{53E9} 41|107r39
+86U14*Create 41|107s7
+87p7 File{52P9} 41|107r15
+88e7 Mode{53E9} 41|107r31
+89a7 Name{string} 41|107r49
+92U14*Open 41|25s7
+93p7 File{52P9} 41|25r13
+94e7 Mode{53E9} 41|25r28
+95a7 Name{string} 41|25r45
+98U14*Close 41|79s7 83s13 113s4 117s13
+107V13*Is_Open{boolean} 41|82s13 116s13
+165U14*New_Line 41|111s10
+241U14*Put 41|110s10
+253V13*Get_Line{string} 41|30s30
+297X4*End_Error 41|81r12 115r12
+X 14 a-tiinio.ads
+60U14*Put 41|109s10[6|18]
+X 18 system.ads
+67M9*Address
+X 27 s-memory.ads
+53V13*Alloc{18|67M9} 103i<c,__gnat_malloc>22
+68U14*Free 104i<c,__gnat_free>22
+76V13*Realloc{18|67M9} 105i<c,__gnat_realloc>22
+X 33 s-stalib.adb
+93U14 Break_Start 94i<c,__gnat_break_start>22
+X 41 v3.adb
+8U11*v3 8b11 126l5 126t7
+9R9 word 13e14 15r43 91r17
+10a7 s{string} 56r66 66m51 96r57 96r66 110r40
+11i7 wlen{natural} 56r85 67m51 110r59
+12i7 count{natural} 57m43 57r64 68m51 109r34
+15A9 word_array(9R9)<integer> 18r14
+17R9 word_list 20e14 22r32 88r36 104r28 121r15
+18a7 words{15A9} 56r57 56r76 57m34 57r55 66m31 67m31 68m31 94r21 96r24 96r48
+. 97m16 97r35 100m13 109r25 110r31 110r50
+19i7 num_words{natural} 27m10 55r42 65m31 65r47 66r40 67r40 68r40 89r28 108r24
+22U14 get_words 22b14 22<24 85l8 85t17 123s4
+22r24 wl{17R9} 27m7 55r39 56r54 56r73 57m31 57r52 65m28 65r44 66m28 66r37
+. 67m28 67r37 68m28 68r37
+23p7 input{13|52P9} 25m21 25r21 30r40 79m13 79r13 82r21 83m19 83r19
+30a14 line{string} 33r27 40r45 46r40 52r52
+31r13 word_buff{11|79R9} 43r30 46m29 46r29 56r41 66r65 66r90 67r66 72m29
+. 72r29 72r50
+33i17 j{integer} 40r50 46r45 52r43
+35b19 is_word{boolean} 44m22 53r26
+36b19 found{boolean} 58m31 60r35 64r32
+37b19 word_complete{boolean} 48m22 52r23
+38i19 char_val{integer} 40m19 43r53 43r72 43r94 43r113 45r27 45r48 45r69
+. 45r89 45r110 45r131 45r152 45r171
+55i29 i{integer} 56r63 56r82 57r40 57r61
+88U14 sort_words 88b14 88=25 102l8 102t18 124s4
+88r25 wl{17R9} 89r25 94r18 96r21 96r45 97m13 97r32 100m10
+89i10 n{integer} 93r21
+90i10 j{integer} 95m10 96r16 96r54 97r22 97r41 98m13 98r18 100r19
+91r10 temp{9R9} 94m10 96r61 100r29
+93i11 i{integer} 94r27 95r15
+104U14 put_words 104b14 104>24 119l8 119t17 125s4
+104r24 wl{17R9} 108r21 109r22 110r28 110r47
+105p7 output{13|52P9} 107m23 107r23 109r14 110r14 111r19 113m10 113r10 116r21
+. 117m19 117r19
+108i11 i{integer} 109r31 110r37 110r56
+121r4 the_words{17R9} 123m14 124m15 124r15 125r14
+

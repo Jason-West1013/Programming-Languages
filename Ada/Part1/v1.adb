@@ -1,0 +1,78 @@
+-- V1 of PLA4
+-- takes the given program and adds a sorting procedure that sorts the output
+-- alphabetically
+with ada.integer_text_io; use ada.integer_text_io;
+with ada.text_io; use ada.text_io;
+
+procedure v1  is
+   type word is record
+      s: string(1 .. 120);  -- the string.  assume 120 characters or less
+      wlen: natural;        -- length of the word
+      count: natural := 0;  -- total number of occurrences of this word
+   end record;
+
+   type word_array is array(1 .. 1000) of word;
+
+   type word_list is record
+      words: word_array;        --  the unique words
+      num_words: natural := 0;   --  how many unique words seen so far
+   end record;
+
+   procedure get_words(wl: out word_list) is
+   begin
+      wl.num_words := 0;  -- only to get rid of a warning
+      while not end_of_file loop
+         declare
+            s: string := get_line;
+            found: boolean := false;
+         begin
+            for i in 1 .. wl.num_words loop
+               if s = wl.words(i).s(1 .. wl.words(i).wlen) then
+                  wl.words(i).count := wl.words(i).count + 1;
+                  found := true;
+               end if;
+               exit when found;
+            end loop;
+
+            if not found then -- add word to list
+               wl.num_words := wl.num_words + 1;
+               wl.words(wl.num_words).s(1 .. s'last) := s;
+               wl.words(wl.num_words).wlen := s'length;
+               wl.words(wl.num_words).count := 1;
+            end if;
+         end; --  declare
+      end loop;
+   end get_words;
+
+   -- sort the list using an insertion sort algorithm
+   procedure sort_words(wl: in out word_list) is
+         n : integer := wl.num_words;
+         j : integer;
+         temp : word;
+   begin
+      for i in 2 .. n loop
+         temp := wl.words(i);
+         j := i - 1;
+         while j in wl.words'range and then wl.words(j).s > temp.s loop
+            wl.words(j + 1) := wl.words(j);
+            j := j - 1;
+         end loop;
+         wl.words(j + 1) := temp;
+      end loop;
+   end sort_words;
+
+   procedure put_words(wl: word_list) is
+   begin
+      for i in 1 .. wl.num_words loop
+         put(wl.words(i).count);
+         put(" " & wl.words(i).s(1 .. wl.words(i).wlen));
+         new_line;
+      end loop;
+   end put_words;
+
+   the_words: word_list;
+begin
+   get_words(the_words);
+   sort_words(the_words);
+   put_words(the_words);
+end v1;

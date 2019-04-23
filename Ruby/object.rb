@@ -5,9 +5,21 @@ class Dog
         @name = name
     end
 
-    # methods
+    def name(name)
+        @name = name
+    end
+
     def name
-        puts "My name is #{@name}"
+        if @name == ""
+            puts "My name is #{private_method}"
+        else 
+            puts "My name is #{@name}"
+        end 
+    end
+
+    private 
+    def private_method
+        return "Rover"
     end
 
     public
